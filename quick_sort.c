@@ -29,13 +29,6 @@ void swap(int v[], int i, int j)
 
 int main(int argc, char *argv[])
 {
-  /*test*/
-  // int last = 0;
-  // int v[] = {2, 1, 5, 8, 7};
-  // swap(v, ++last, 2);
-  // for (int i = 0; i < 5; i++)
-  //   printf("swap done %d\n", v[i]);
-
   int arr[] = {2, 1, 5, 8, 7};
   qsort(arr, 0, 4);
   for (int i = 0; i < 5; i++)
