@@ -63,7 +63,6 @@ double val[MAXVAL];
 
 void push(double f)
 {
-  printf("push f %f\n", f);
   if (sp < MAXVAL)
   {
     val[sp] = f;
@@ -80,7 +79,6 @@ double pop()
 {
   if (sp > 0)
   {
-    printf("pop value %f\n", val[sp]);
     double v = val[--sp];
     return v;
   }
@@ -99,7 +97,7 @@ int getop(char s[])
   while ((s[0] = c = getch()) == ' ' || c == '\t')
     ;
   s[1] = '\0';
-  printf("get c %c\n", c);
+  // Non digit
   if (!isdigit(c) && c != '.')
   {
     return c;
@@ -113,6 +111,7 @@ int getop(char s[])
     while (isdigit(s[++i] = c = getch()))
       ;
   s[i] = '\0';
+  // Non EOF, should put the char back for next getop
   if (c != EOF)
     ungetch(c);
   return NUMBER;
