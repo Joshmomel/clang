@@ -1,3 +1,7 @@
+/*
+  analyse the declaration int *i => i: point to i
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -27,13 +31,14 @@ int main()
 {
   while (gettoken() != EOF)
   {
-    printf("token is %s\n", token);
     strcpy(datatype, token);
     out[0] = '\0';
     dcl();
+    // printf("tokentype in the while is %d\n", tokentype);
     if (tokentype != '\n')
       printf("syntax error\n");
-    printf("print: %s: %s %s done\n", name, out, datatype);
+    printf("analyse: \n");
+    printf("%s: %s %s \n", name, out, datatype);
   }
   return 0;
 }
@@ -42,16 +47,22 @@ void dcl(void)
 {
   int ns;
   for (ns = 0; gettoken() == '*';)
+  {
     ns++;
+    // printf("ns is %d\n", ns);
+  }
+
   dirdcl();
   while (ns-- > 0)
   {
     strcat(out, " point to");
   }
+  // printf("one dcl is done and out is %s\n", out);
 }
 
 void dirdcl(void)
 {
+  // printf("dirdcl is called\n");
   int type;
 
   if (tokentype == '(')
@@ -65,7 +76,6 @@ void dirdcl(void)
   else
     printf("error: expected name or (dcl)\n");
   while ((type = gettoken()) == PARENS || type == BRACKETS)
-  {
     if (type == PARENS)
     {
       strcat(out, " function returning");
@@ -76,7 +86,6 @@ void dirdcl(void)
       strcat(out, token);
       strcat(out, " of");
     }
-  }
 }
 
 /*
@@ -114,14 +123,19 @@ int gettoken(void)
   {
     for (*p++ = c; isalnum(c = getch());)
       *p++ = c;
-    *p = '\n';
+    *p = '\0';
     ungetch(c);
     return tokentype = NAME;
   }
   else
+  {
     return tokentype = c;
+  }
 }
 
+/*
+  use for getch and ungetch
+*/
 char buf[BUFSIZE];
 int bufp = 0;
 
